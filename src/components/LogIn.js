@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import * as yup from 'yup';
+import axios from 'axios';
 
 const initialFormState = {
     username: '',
@@ -49,6 +50,21 @@ export default function LogIn (props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("User LogIn:", formState);
+
+        // sample axios POST request -- switch to BE when routes are ready
+        axios
+        .post('https://reqres.in/api/users', formState)
+        .then((response)=> {
+            console.log(response.data);
+            const currentUser = response.data.username;
+            alert(`Success! Welcome Back, ${currentUser}.`);
+        })
+        .catch((err) => {
+            console.log(err);
+            alert(`No account exists, please create an account.`);
+        });
+
+        //resets form
         setFormState(initialFormState);
     }
 
