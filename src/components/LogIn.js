@@ -9,14 +9,33 @@ const initialFormState = {
 export default function LogIn (props) {
     // receive function to set current user as props
     const {getUser} = props;
+
     // hold state for user login form
     const [formState, setFormState] = useState(initialFormState);
 
+    // hold state for yup validation errors
+    const [errors, setErrors] = useState(initialFormState);
+
     // set up formSchema with yup for form validation
     const formSchema = yup.object().shape({
-        username: yup.string().required().min(6, 'Username must be at least 6 characters.'),
-        password: yup.string().required().min(8,'Password must be at least 8 characters')
+        username: yup.string().required('Username is requred.').min(6, 'Username must be at least 6 characters.'),
+        password: yup.string().required('Password is required').min(8,'Password must be at least 8 characters')
     });
+
+    // use yup.reach to validate inputs at each user input
+    // function fired from handleChange function
+    const validateChange = (name, value) => {
+        yup
+        .reach(formSchema, name)
+        .validate(value) 
+        .then(valid => {
+          setErrors({ ...errors, [name]: "" });
+        })
+        .catch(err => {
+          setErrors({ ...errors, [name]: err.errors[0] });
+          console.log(err);
+        });
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -25,7 +44,10 @@ export default function LogIn (props) {
     }
 
     const handleChange = (e) => {
-        const newUser = {...formState, [e.target.name]: e.target.value};
+        const name = e.target.name;
+        const value = e.target.value;
+        const newUser = {...formState, [name]: value};
+        validateChange(name, value);
         setFormState(newUser);
     }
 
@@ -42,6 +64,7 @@ export default function LogIn (props) {
                     required
                     onChange={handleChange}
                     />
+                    {errors.username.length > 0 ? <p className="error">{errors.username}</p> : null}
                 </form-group>
                 <form-group>
                     <label htmlFor='password'>Password:</label>
@@ -52,6 +75,7 @@ export default function LogIn (props) {
                     required
                     onChange={handleChange}
                     />
+                    {errors.password.length > 0 ? <p className="error">{errors.password}</p> : null}
                 </form-group>
                 <button type='submit'>Submit</button>
             </form>
