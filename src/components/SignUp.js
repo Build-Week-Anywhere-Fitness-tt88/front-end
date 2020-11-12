@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import * as yup from 'yup';
 
 const initialFormState = {
@@ -11,6 +11,10 @@ export default function SignUp (props) {
     // receive function to set current user as props
     const {getUser} = props;
     // hold state for user signup form
+
+    // hold button disabled state to control when form can submit
+    const [buttonDisabled, setButtonDisabled] = useState(true);
+
     const [formState, setFormState] = useState(initialFormState);
     // hold state for errors from yup validation
     const [errors, setErrors] = useState({
@@ -49,7 +53,14 @@ export default function SignUp (props) {
         }
         setFormState(newUser);
     }
-
+    
+   // Monitor changes to check when yup validation is valid
+    // When valid will enable submit button by updating button state
+    useEffect(()=>{
+        formSchema.isValid(formState).then(valid => {
+            setButtonDisabled(!valid);
+          });
+    },[formState]);
 
     return(
         <div className='signup-wrapper'>
@@ -88,7 +99,7 @@ export default function SignUp (props) {
                     onChange={handleChange}
                     />
                 </form-group>
-                <button type='submit'>Submit</button>
+                <button disabled={buttonDisabled} type='submit'>Submit</button>
             </form>
         </div>
     )
