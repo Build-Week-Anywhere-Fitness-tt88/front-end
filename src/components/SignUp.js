@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import * as yup from 'yup';
+import axios from 'axios';
 
 const initialFormState = {
     username: '',
@@ -10,12 +11,13 @@ const initialFormState = {
 export default function SignUp (props) {
     // receive function to set current user as props
     const {getUser} = props;
+
     // hold state for user signup form
+    const [formState, setFormState] = useState(initialFormState);
 
     // hold button disabled state to control when form can submit
     const [buttonDisabled, setButtonDisabled] = useState(true);
-
-    const [formState, setFormState] = useState(initialFormState);
+ 
     // hold state for errors from yup validation
     const [errors, setErrors] = useState({
         username: '',
@@ -38,9 +40,25 @@ export default function SignUp (props) {
             setErrors({...errors, [name]: err.errors[0]})
         })
     }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('newuserInfo:', formState);
+
+        // set up axios POST request to sign up a new user
+        axios
+        .post('https://reqres.in/api/users', formState)
+        .then(response => {
+            console.log(response.data);
+            const username = response.data.username;
+            let newUserMessage = ''
+            if (response.data.instructor) {
+                newUserMessage = "As an instructor, you can get started creating classes on your dashboard.";
+            }else{
+                newUserMessage = "Start searching for the classes that work for you on your personal dashboard.";
+            }
+            alert(`Hi, ${username}, Thanks for joining Anywhere Fitness! ${newUserMessage}`);
+        })
         setFormState(initialFormState);
     }
 
