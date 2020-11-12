@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import * as yup from 'yup';
 
 const initialFormState = {
@@ -12,6 +12,10 @@ export default function LogIn (props) {
 
     // hold state for user login form
     const [formState, setFormState] = useState(initialFormState);
+
+    // hold state for submit button status
+    // will prevent form submission if yup validation errors are present
+    const [buttonDisabled, setButtonDisabled] = useState(true);
 
     // hold state for yup validation errors
     const [errors, setErrors] = useState(initialFormState);
@@ -37,12 +41,18 @@ export default function LogIn (props) {
         });
     }
 
+    // function fires with button click
+    // Will send POST request to BE to log user in
+    // If successful, will fire getUser to update state on App component
+    // will use useHistory hook to push to url route for client or instructor
+    // based on conditional check of BE response.data
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("User LogIn:", formState);
         setFormState(initialFormState);
     }
 
+    // function fires with each change to form inputs
     const handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
@@ -50,6 +60,14 @@ export default function LogIn (props) {
         validateChange(name, value);
         setFormState(newUser);
     }
+
+    // Monitor changes to check when yup validation is valid
+    // When valid will enable submit button by updating button state
+    useEffect(()=>{
+        formSchema.isValid(formState).then(valid => {
+            setButtonDisabled(!valid);
+          });
+    },[formState])
 
     return(
         <div className='login-wrapper'>
@@ -77,7 +95,7 @@ export default function LogIn (props) {
                     />
                     {errors.password.length > 0 ? <p className="error">{errors.password}</p> : null}
                 </form-group>
-                <button type='submit'>Submit</button>
+                <button disabled={buttonDisabled} type='submit'>Submit</button>
             </form>
         </div>
     )
