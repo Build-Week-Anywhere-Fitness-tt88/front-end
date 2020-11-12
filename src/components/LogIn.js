@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import * as yup from 'yup';
 
 const initialFormState = {
     username: '',
@@ -10,6 +11,12 @@ export default function LogIn (props) {
     const {getUser} = props;
     // hold state for user login form
     const [formState, setFormState] = useState(initialFormState);
+
+    // set up formSchema with yup for form validation
+    const formSchema = yup.object().shape({
+        username: yup.string().required().min(6, 'Username must be at least 6 characters.'),
+        password: yup.string().required().min(8,'Password must be at least 8 characters')
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault();
