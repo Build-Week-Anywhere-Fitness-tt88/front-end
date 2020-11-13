@@ -4,6 +4,10 @@ import SignUp from './components/SignUp';
 import LogIn from './components/LogIn';
 import './App.css';
 
+import { ClientPage } from './ClientComponents/ClientPage'
+import { InstructorPage } from './InstructorComponents/InstructorPage';
+
+
 function App() {
 
   // state to hold current logged in user, initial user object values
@@ -27,6 +31,11 @@ function App() {
       <Switch>
         <Route path='/signup' render={()=> <SignUp getUser={getUser}/>}/>
         <Route path='/login' render={()=> <LogIn getUser={getUser}/>}/>
+
+        {/* Will change later to private routes once authentication token is finished */}
+        <Route path='/clientPage' render={()=> <ClientPage getUser={getUser}/>}/>
+        <Route path='/instructorPage' render={()=> <InstructorPage getUser={getUser}/>}/>
+
       </Switch>
     </div>
   );
