@@ -1,5 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline';
+import {Container, Typography} from '@material-ui/core';
+import styled from 'styled-components';
+
+const ClassCard = styled.div`
+    border: 1px solid black;
+    margin-bottom: 20px;
+    background-color: #323956;
+    color: white;
+    padding: 20px;
+`;
+
 
 //test data, this will end up coming from server request
 const sampleClasses = [
@@ -86,19 +98,21 @@ export default function SampleClasses() {
     },[])
 
     return (
-        <div className="class-list-wrapper">
-            {classes.map(sampleClass => (
-            <div className="class-card" key={sampleClass.id}>
-                <h3>{sampleClass.name}</h3>
-                <img
-                className="class-list-image"
-                src={sampleClass.imageUrl}
-                alt={sampleClass.name}
-                />
-                <p className="class-description">{sampleClass.description}</p>
-          </div>
-            ))}
-        </div>
+        <ScopedCssBaseline>
+            <Container maxWidth='sm'>
+                {classes.map(sampleClass => (
+                <ClassCard key={sampleClass.id}>
+                    <Typography variant='h3' gutterBottom>{sampleClass.name}</Typography>
+                    <img
+                    src={sampleClass.imageUrl}
+                    alt={sampleClass.name}
+                    width="100%"
+                    />
+                    <Typography variant='body1' gutterBottom>{sampleClass.description}</Typography>
+            </ClassCard>
+                ))}
+            </Container>
+        </ScopedCssBaseline>
     )
 
 }
