@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Route, Switch} from 'react-router-dom';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import SignUp from './components/SignUp';
 import LogIn from './components/LogIn';
 import SampleClasses from './components/SampleClasses';
@@ -42,6 +43,8 @@ function App() {
         <Route path='/instructorPage' render={()=> <InstructorPage getUser={getUser}/>}/>
 
       </Switch>
+
+      <Footer />
     </div>
   );
 }
