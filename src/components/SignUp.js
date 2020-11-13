@@ -217,9 +217,8 @@ export default function SignUp (props) {
                     required
                     onChange={handleChange}
                     />
-                    {errors.username.length > 0 ? <Errors>{errors.username}</Errors> : null}
                 </FormGroup>
-                <br />
+                {errors.username.length > 0 ? <Errors>{errors.username}</Errors> : null}
                 <FormGroup>
                     <Label htmlFor='password'>Password <Required>*</Required></Label>
                     <Input type='password'
@@ -229,9 +228,8 @@ export default function SignUp (props) {
                     required
                     onChange={handleChange}
                     />
-                    {errors.password.length > 0 ? <Errors>{errors.password}</Errors> : null}
                 </FormGroup>
-                <br />
+                {errors.password.length > 0 ? <Errors>{errors.password}</Errors> : null}
                 <CheckBoxGroup>
                     <Label htmlFor='instructor'>Instructor:</Label>
                     <Input type='checkbox'
