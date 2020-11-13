@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Route, Switch} from 'react-router-dom';
 import SignUp from './components/SignUp';
 import LogIn from './components/LogIn';
+import SampleClasses from './components/SampleClasses';
 import './App.css';
 
 import { ClientPage } from './ClientComponents/ClientPage'
@@ -31,6 +32,7 @@ function App() {
       <Switch>
         <Route path='/signup' render={()=> <SignUp getUser={getUser}/>}/>
         <Route path='/login' render={()=> <LogIn getUser={getUser}/>}/>
+        <Route path='/sampleclasses' component={SampleClasses} />
 
         {/* Will change later to private routes once authentication token is finished */}
         <Route path='/clientPage' render={()=> <ClientPage getUser={getUser}/>}/>
