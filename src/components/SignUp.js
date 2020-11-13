@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
 import * as yup from 'yup';
 import axios from 'axios';
 
@@ -11,6 +12,8 @@ const initialFormState = {
 export default function SignUp (props) {
     // receive function to set current user as props
     const {getUser} = props;
+    // use hook to get history props
+    const history = useHistory();
 
     // hold state for user signup form
     const [formState, setFormState] = useState(initialFormState);
@@ -54,10 +57,14 @@ export default function SignUp (props) {
             let newUserMessage = ''
             if (response.data.instructor) {
                 newUserMessage = "As an instructor, you can get started creating classes on your dashboard.";
+                alert(`Hi, ${username}, Thanks for joining Anywhere Fitness! ${newUserMessage}`);
+                history.push('/instructorPage');             
             }else{
                 newUserMessage = "Start searching for the classes that work for you on your personal dashboard.";
+                alert(`Hi, ${username}, Thanks for joining Anywhere Fitness! ${newUserMessage}`);
+                history.push('/clientPage');
             }
-            alert(`Hi, ${username}, Thanks for joining Anywhere Fitness! ${newUserMessage}`);
+            
         })
         setFormState(initialFormState);
     }
