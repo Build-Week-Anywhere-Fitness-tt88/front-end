@@ -54,6 +54,7 @@ export default function SignUp (props) {
         .then(response => {
             console.log(response.data);
             const username = response.data.username;
+            getUser(response.data)
             let newUserMessage = ''
             if (response.data.instructor) {
                 newUserMessage = "As an instructor, you can get started creating classes on your dashboard.";
