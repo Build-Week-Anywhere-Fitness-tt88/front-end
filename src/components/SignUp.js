@@ -19,7 +19,7 @@ export default function SignUp (props) {
     }
 
     const handleChange = (e) => {
-        const newUser = {...formState, [e.target.name]: e.target.type == 'checkbox'? e.target.checked: e.target.value};
+        const newUser = {...formState, [e.target.name]: e.target.type === 'checkbox'? e.target.checked: e.target.value};
         setFormState(newUser);
     }
 
