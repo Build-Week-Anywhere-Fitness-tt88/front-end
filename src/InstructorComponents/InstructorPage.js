@@ -4,6 +4,11 @@ import React, {useState, useEffect} from 'react';
 export const InstructorPage = () => {
 
     return (
-        <p>Instructor Page</p>
+        <div>
+            <p>Instructor Page</p>
+            <p> Edited by Sathya</p>
+            <p>Testing this Component</p>
+        </div>
+        
     )
 }
