@@ -6,6 +6,10 @@ const HeaderWrapper = styled.div`
     margin-top: 0;
     width: 100%;
     background-color: #887fbb;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     `;
 const HeaderDiv = styled.div`
     width: 90%;
@@ -44,7 +48,7 @@ const NavLinkDiv = styled.div`
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
-    @media(max-width: 800px){
+    @media(max-width: 925px){
         flex-direction: column;
         justify-content: center;
         align-items: flex-end;
@@ -64,7 +68,7 @@ const NavLinkItem = styled(NavLink)`
     text-decoration: none;
     text-transformation: uppercase;
     font-family: Source Sans Pro, sans-serif;
-    font-size: 1.8rem;
+    font-size: 2rem;
     color: #ffffff;
     &:hover{
         font-weight: 600;
@@ -78,7 +82,7 @@ const HomeLink = styled.a`
     text-decoration: none;
     text-transformation: uppercase;
     font-family: Source Sans Pro, sans-serif;
-    font-size: 1.8rem;
+    font-size: 2rem;
     color: #ffffff;
     &:hover{
         font-weight: 600;
