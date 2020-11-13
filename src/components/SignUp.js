@@ -1,7 +1,120 @@
 import React, {useState, useEffect} from 'react';
-import {useHistory} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import * as yup from 'yup';
 import axios from 'axios';
+import styled from 'styled-components';
+
+const SignUpWrapperDiv = styled.div`
+    margin-top: 0;
+    width: 100%;
+    background-color: #323956;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    color: #ffffff;
+    height: auto;
+    `;
+
+const FormHeaderDiv = styled.div`
+    width: 60%;
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    `;
+
+const SignUpTitle = styled.h1`
+    margin-right: auto;
+    // padding: 20px;
+    font-family: Source Sans Pro, sans-serif;
+    font-size: 3.4rem;
+    color: #ffffff;
+    font-weight: 600;
+    line-height: 1.65;
+    margin-bottom: 20px;
+    @media(max-width: 670px){
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+    }`;
+const LogInLink = styled(Link)`
+    font-family: Source Sans Pro, sans-serif;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 2.6rem;
+    color: #887fbb;
+    &:hover{
+        color: #9bf1ff;
+    }
+`;
+const Form = styled.form`
+    width: 60%;
+    max-width: 500px;
+    margin: 25px auto;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #ffffff;
+    padding: 25px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    justify-content: center;
+    align-items: center;
+`;
+
+const FormGroup = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+`;
+
+const CheckBoxGroup = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline;
+    margin-bottom: 16px;
+`;
+ 
+const Label = styled.label`
+    margin-right: auto;
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+    font-weight: 600;
+`;
+
+const Required = styled.span`
+    color: #9bf1ff;
+    font-weight: 600;
+`;
+
+const Input = styled.input`
+    padding-left: 8px;
+    font-size: 1.8rem;
+    margin-bottom: 16px;
+`;
+
+const Errors = styled.p`
+    color: #9bf1ff;
+    margin: 0 0 10px 0;
+    font-size: 1.6rem;
+    text-align: center;
+`;
+ 
+const SubmitButton = styled.button`
+    border: 1px solid #ffffff;
+    background-color: transparent;
+    padding: 12px 30px;
+    text-transform: uppercase;
+    font-size: 1.6rem;
+    color: #ffffff;
+    &:hover{
+        border-color: #9bf1ff;
+        color: #9bf1ff;
+    }
+`;
 
 const initialFormState = {
     username: '',
@@ -89,45 +202,48 @@ export default function SignUp (props) {
     },[formState]);
 
     return(
-        <div className='signup-wrapper'>
-            <h1>Create an Account</h1>
-            <form onSubmit={handleSubmit} className='signup-form'>
-                <form-group>
-                    <label htmlFor='username'>Username:</label>
-                    <input type='text'
+        <SignUpWrapperDiv>
+            <FormHeaderDiv>
+                <SignUpTitle>Create an Account</SignUpTitle>
+                <LogInLink to='/login'>Log In</LogInLink>
+            </FormHeaderDiv>
+            <Form onSubmit={handleSubmit} className='signup-form'>
+                <FormGroup>
+                    <Label htmlFor='username'>Username <Required>*</Required></Label>
+                    <Input type='text'
                     id='username'
                     name='username'
                     value={formState.username}
                     required
                     onChange={handleChange}
                     />
-                    {errors.username.length > 0 ? <p className='error'>{errors.username}</p> : null}
-                </form-group>
+                    {errors.username.length > 0 ? <Errors>{errors.username}</Errors> : null}
+                </FormGroup>
                 <br />
-                <form-group>
-                    <label htmlFor='password'>Password:</label>
-                    <input type='password'
+                <FormGroup>
+                    <Label htmlFor='password'>Password <Required>*</Required></Label>
+                    <Input type='password'
                     id='password'
                     name='password'
                     value={formState.password}
                     required
                     onChange={handleChange}
                     />
-                    {errors.password.length > 0 ? <p className='error'>{errors.password}</p> : null}
-                </form-group>
+                    {errors.password.length > 0 ? <Errors>{errors.password}</Errors> : null}
+                </FormGroup>
                 <br />
-                <form-group>
-                    <label htmlFor='instructor'>Instructor:</label>
-                    <input type='checkbox'
+                <CheckBoxGroup>
+                    <Label htmlFor='instructor'>Instructor:</Label>
+                    <Input type='checkbox'
                     id='instructor'
                     name='instructor'
                     checked={formState.instructor}
                     onChange={handleChange}
                     />
-                </form-group>
-                <button disabled={buttonDisabled} type='submit'>Submit</button>
-            </form>
-        </div>
+                </CheckBoxGroup>
+                <SubmitButton disabled={buttonDisabled} type='submit'>Submit</SubmitButton>
+            </Form>
+        </SignUpWrapperDiv>
     )
 
 }
