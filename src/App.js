@@ -4,6 +4,8 @@ import SignUp from './components/SignUp';
 import LogIn from './components/LogIn';
 import './App.css';
 
+import { ClientPage } from './ClientComponents/ClientPage'
+
 function App() {
 
   // state to hold current logged in user, initial user object values
@@ -27,6 +29,7 @@ function App() {
       <Switch>
         <Route path='/signup' render={()=> <SignUp getUser={getUser}/>}/>
         <Route path='/login' render={()=> <LogIn getUser={getUser}/>}/>
+        <Route path='/clientPage' render={()=> <ClientPage getUser={getUser}/>}/>
       </Switch>
     </div>
   );
