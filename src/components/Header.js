@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const HeaderWrapper = styled.div`
     margin-top: 0;
+    margin-bottom: 0;
     width: 100%;
     background-color: #887fbb;
     height: 200px;
