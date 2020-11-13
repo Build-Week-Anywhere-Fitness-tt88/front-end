@@ -1,17 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline';
-import {Container, Typography} from '@material-ui/core';
 import styled from 'styled-components';
-
-const ClassCard = styled.div`
-    border: 1px solid black;
-    margin-bottom: 20px;
-    background-color: #323956;
-    color: white;
-    padding: 20px;
-`;
-
 
 //test data, this will end up coming from server request
 const sampleClasses = [
@@ -76,6 +65,47 @@ const sampleClasses = [
         description: "Pickleball is a paddleball sport (similar to a racquet sport) that combines elements of badminton, table tennis, and tennis. Two or four players use solid paddles made of wood or composite materials to hit a perforated polymer ball, much like a wiffle ball, with 26-40 round holes, over a net."
     }
 ];
+const ClassesComponentDiv = styled.div`
+   background-color: #323956;
+    `;
+const PageTitle = styled.h1`
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Source Sans Pro, sans-serif;
+    font-size: 3rem;
+    color: #ffffff;
+    font-weight: 600;
+    line-height: 1.65;
+    border-bottom: 2px solid white;
+    margin-bottom: 20px;
+    @media(max-width: 670px){
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 0;
+    }`;
+const ClassDisplayDiv = styled.div`
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-content: space-around;
+    `;
+const ClassCard = styled.div`
+    margin-bottom: 20px;
+    width: 30%;
+    color: #ffffff;
+    margin: 20px;
+    @media(max-width: 850px){
+        width: 50%;
+        margin-bottom: 0;
+    };
+    @media(max-width: 670px){
+        width: 75%;
+    }
+`;
 
 export default function SampleClasses() {
     const [classes, setClasses] = useState([]);
@@ -98,21 +128,23 @@ export default function SampleClasses() {
     },[])
 
     return (
-        <ScopedCssBaseline>
-            <Container maxWidth='sm'>
+        <ClassesComponentDiv >
+            <PageTitle>Sample Classes</PageTitle>
+            <ClassDisplayDiv >
                 {classes.map(sampleClass => (
                 <ClassCard key={sampleClass.id}>
-                    <Typography variant='h3' gutterBottom>{sampleClass.name}</Typography>
+                    <h3>{sampleClass.name}</h3>
                     <img
                     src={sampleClass.imageUrl}
                     alt={sampleClass.name}
                     width="100%"
                     />
-                    <Typography variant='body1' gutterBottom>{sampleClass.description}</Typography>
-            </ClassCard>
+                    <p>{sampleClass.description}</p>
+                </ClassCard>
                 ))}
-            </Container>
-        </ScopedCssBaseline>
+                </ClassDisplayDiv>
+                
+        </ClassesComponentDiv>
     )
 
 }
