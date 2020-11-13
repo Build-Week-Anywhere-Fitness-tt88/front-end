@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Route, Switch} from 'react-router-dom';
 import SignUp from './components/SignUp';
 import LogIn from './components/LogIn';
+import SampleClasses from './components/SampleClasses';
 import './App.css';
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
       <Switch>
         <Route path='/signup' render={()=> <SignUp getUser={getUser}/>}/>
         <Route path='/login' render={()=> <LogIn getUser={getUser}/>}/>
+        <Route path='/sampleclasses' component={SampleClasses} />
       </Switch>
     </div>
   );
