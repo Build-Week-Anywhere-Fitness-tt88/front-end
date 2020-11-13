@@ -3,6 +3,7 @@ import {useHistory} from 'react-router-dom';
 import * as yup from 'yup';
 import axios from 'axios';
 
+
 const initialFormState = {
     username: '',
     password: ''
@@ -11,6 +12,7 @@ const initialFormState = {
 export default function LogIn (props) {
     // receive function to set current user as props
     const {getUser} = props;
+   
     // get history props using useHistory hook
     const history = useHistory();
 
@@ -59,6 +61,7 @@ export default function LogIn (props) {
         .post('https://reqres.in/api/users', formState)
         .then((response)=> {
             console.log(response.data);
+            getUser(response.data);
             const currentUser = response.data.username;
             alert(`Success! Welcome Back, ${currentUser}.`);
             if (response.data.instructor){

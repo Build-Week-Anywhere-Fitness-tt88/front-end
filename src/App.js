@@ -24,8 +24,15 @@ function App() {
 
   // function to get the current logged in user, passed as props to signup and login forms
   const getUser = (user) => {
-    setCurrentUser(user);
+    console.log('updating state with current user', user);
+    const loggedInUser = {...currentUser,
+      id: user.id,
+      username: user.username,
+      instructor: user.instructor
+    }
+    setCurrentUser(loggedInUser);
   }
+ 
 
   return (
     <div className="App">
