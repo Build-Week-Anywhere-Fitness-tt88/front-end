@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
 import * as yup from 'yup';
 import axios from 'axios';
 
@@ -10,6 +11,8 @@ const initialFormState = {
 export default function LogIn (props) {
     // receive function to set current user as props
     const {getUser} = props;
+    // get history props using useHistory hook
+    const history = useHistory();
 
     // hold state for user login form
     const [formState, setFormState] = useState(initialFormState);
@@ -58,10 +61,16 @@ export default function LogIn (props) {
             console.log(response.data);
             const currentUser = response.data.username;
             alert(`Success! Welcome Back, ${currentUser}.`);
+            if (response.data.instructor){
+                history.push('/instructorPage');
+            }else{
+                history.push('/clientPage');
+            }
         })
         .catch((err) => {
             console.log(err);
             alert(`No account exists, please create an account.`);
+            history.push('/signup');
         });
 
         //resets form
