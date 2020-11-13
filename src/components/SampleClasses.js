@@ -80,7 +80,7 @@ export default function SampleClasses() {
         .post('https://reqres.in/api/users', sampleClasses)
         .then(response => {
             console.log(response.data);
-            setClasses(response.data)
+            setClasses(response.data);
         })
         .catch(err => console.log(err))
     },[])
