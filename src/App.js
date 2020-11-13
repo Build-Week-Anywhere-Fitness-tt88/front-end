@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Route, Switch} from 'react-router-dom';
+import Header from './components/Header';
 import SignUp from './components/SignUp';
 import LogIn from './components/LogIn';
 import SampleClasses from './components/SampleClasses';
@@ -27,7 +28,9 @@ function App() {
 
   return (
     <div className="App">
-      Anywhere Fitness App
+      
+      <Header currentUser={currentUser}/>
+
       {/* Routes */}
       <Switch>
         <Route path='/signup' render={()=> <SignUp getUser={getUser}/>}/>
