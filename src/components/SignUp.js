@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import {Route, Link, useHistory, useRouteMatch} from 'react-router-dom';
 import * as yup from 'yup';
 import axios from 'axios';
 import styled from 'styled-components';
+import SignUpDialog from './SignUpDialog';
 
 const SignUpWrapperDiv = styled.div`
     margin-top: 0;
@@ -129,9 +130,12 @@ const initialFormState = {
 
 export default function SignUp (props) {
     // receive function to set current user as props
-    const {getUser} = props;
+    const {currentUser, getUser} = props;
     // use hook to get history props
     const history = useHistory();
+
+    // use hook to get match props
+    const match = useRouteMatch();
 
     // hold state for user signup form
     const [formState, setFormState] = useState(initialFormState);
@@ -174,15 +178,16 @@ export default function SignUp (props) {
             const username = response.data.username;
             getUser(response.data)
             let newUserMessage = ''
-            if (response.data.instructor) {
-                newUserMessage = "As an instructor, you can get started creating classes on your dashboard.";
-                alert(`Hi, ${username}, Thanks for joining Anywhere Fitness! ${newUserMessage}`);
-                history.push('/instructorPage');             
-            }else{
-                newUserMessage = "Start searching for the classes that work for you on your personal dashboard.";
-                alert(`Hi, ${username}, Thanks for joining Anywhere Fitness! ${newUserMessage}`);
-                history.push('/clientPage');
-            }
+            history.push(`${match.url}/success`);
+            // if (response.data.instructor) {
+            //     newUserMessage = "As an instructor, you can get started creating classes on your dashboard.";
+            //     alert(`Hi, ${username}, Thanks for joining Anywhere Fitness! ${newUserMessage}`);
+            //     history.push('/instructorPage');             
+            // }else{
+            //     newUserMessage = "Start searching for the classes that work for you on your personal dashboard.";
+            //     alert(`Hi, ${username}, Thanks for joining Anywhere Fitness! ${newUserMessage}`);
+            //     history.push('/clientPage');
+            // }
             
         })
         setFormState(initialFormState);
@@ -246,6 +251,9 @@ export default function SignUp (props) {
                 </CheckBoxGroup>
                 <SubmitButton disabled={buttonDisabled} type='submit'>Submit</SubmitButton>
             </Form>
+            <Route path={`${match.url}/success`}>
+                <SignUpDialog currentUser={currentUser}/>
+            </Route>
         </SignUpWrapperDiv>
     )
 

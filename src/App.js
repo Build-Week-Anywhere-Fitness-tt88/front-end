@@ -41,8 +41,8 @@ function App() {
 
       {/* Routes */}
       <Switch>
-        <Route path='/signup' render={()=> <SignUp getUser={getUser}/>}/>
-        <Route path='/login' render={()=> <LogIn getUser={getUser}/>}/>
+        <Route path='/signup' render={()=> <SignUp currentUser={currentUser} getUser={getUser}/>}/>
+        <Route path='/login' render={()=> <LogIn currentUser={currentUser} getUser={getUser}/>}/>
         <Route path='/sampleclasses' component={SampleClasses} />
 
         {/* Will change later to private routes once authentication token is finished */}
