@@ -99,13 +99,17 @@ const SubmitButton = styled.button`
     padding: 12px 30px;
     text-transform: uppercase;
     font-size: 1.6rem;
+    cursor: pointer;
     color: #ffffff;
     &:hover{
         border-color: #9bf1ff;
         color: #9bf1ff;
     }
+    &:disabled{
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
 `;
- 
  
 const initialFormState = {
     username: '',

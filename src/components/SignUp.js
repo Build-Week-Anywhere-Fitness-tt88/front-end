@@ -110,9 +110,14 @@ const SubmitButton = styled.button`
     text-transform: uppercase;
     font-size: 1.6rem;
     color: #ffffff;
+    cursor: pointer;
     &:hover{
         border-color: #9bf1ff;
         color: #9bf1ff;
+    }
+    &:disabled{
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 `;
 
