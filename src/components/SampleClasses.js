@@ -197,7 +197,7 @@ export default function SampleClasses() {
                     <InfoDiv>
                         <ClassTitle>{sampleClass.name}</ClassTitle>
                         <ClassDescription>{sampleClass.description}</ClassDescription>
-                        <Button onClick={()=> history.pushState('/signup')}>Get Started</Button>
+                        <Button onClick={()=> history.push('/signup')}>Get Started</Button>
                     </InfoDiv>
                     </>
                    ): 
