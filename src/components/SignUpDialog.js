@@ -10,12 +10,14 @@ import Slide from "@material-ui/core/Slide";
 const Transition = React.forwardRef((props, ref) => {
   return <Slide direction="down" ref={ref} {...props} />;
 });
+
+
 export default function SignUpDialog(props) {
   const {currentUser} = props;
   const isInstructor = currentUser.instructor;
   const username = currentUser.username;
   const history = useHistory();
-  
+
   const [open, setOpen] = useState(true);
   const handleClose = () => {
     setOpen(false);
@@ -25,33 +27,64 @@ export default function SignUpDialog(props) {
       history.push('/clientPage')
     }
   };
+
+  const textStyles = {
+    fontSize: "2.4rem",
+    color: '#ffffff',
+  }
+  const buttonTextStyles = {
+    border: '1px solid #242943',
+    padding: '8px 16px',
+    fontSize: "1.6rem",
+    color: '#ffffff',
+  }
+  
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={() => setOpen(true)}>
+      <Button size="large" variant="outlined" color="default" onClick={() => setOpen(true)}>
         Open simple dialog
       </Button>
       <Dialog
+        PaperProps={{
+          style: {
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "50vh",
+            minWidth: "50vw",
+            backgroundColor: "#887fbb",
+            justifyContent: "center",
+            alignItems: "center"
+          }
+         }}
         open={open}
         onClose={handleClose}
         TransitionComponent={Transition}
       >
-        <DialogTitle>Success!</DialogTitle>
+        <DialogTitle>
+          <span 
+            style={{
+              fontSize: '4rem',
+              fontWeight: '600',
+              color: '#ffffff',
+              margin: "0 auto"
+            }}>Success!</span>
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText>Hi, {username}!</DialogContentText>
+          <DialogContentText><span style={textStyles}>Hi, {username}!</span></DialogContentText>
           { !!isInstructor ? 
           <>
-            <DialogContentText>As an instructor, you can get started creating classes on your dashboard.</DialogContentText> 
+            <DialogContentText><span style={textStyles}>As an instructor, you can get started creating classes on your dashboard.</span></DialogContentText> 
           </>:
           <>
-            <DialogContentText>Start searching for the classes that work for you on your personal dashboard.</DialogContentText>
+            <DialogContentText><span style={textStyles}>Start searching for the classes that work for you on your personal dashboard.</span></DialogContentText>
           </>
           
           }
-          <DialogContentText>Thanks for joining Anywhere Fitness!</DialogContentText>
+          <DialogContentText><span style={textStyles}>Thanks for joining Anywhere Fitness!</span></DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary" autoFocus>
-            Let's Get Started
+            <span style={buttonTextStyles}>Start Now</span>
           </Button>
         </DialogActions>
       </Dialog>

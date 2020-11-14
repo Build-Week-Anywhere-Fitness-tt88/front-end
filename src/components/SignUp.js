@@ -175,20 +175,10 @@ export default function SignUp (props) {
         .post('https://reqres.in/api/users', formState)
         .then(response => {
             console.log(response.data);
-            const username = response.data.username;
+            // getUser will update currentUser state on App component
             getUser(response.data)
-            let newUserMessage = ''
-            history.push(`${match.url}/success`);
-            // if (response.data.instructor) {
-            //     newUserMessage = "As an instructor, you can get started creating classes on your dashboard.";
-            //     alert(`Hi, ${username}, Thanks for joining Anywhere Fitness! ${newUserMessage}`);
-            //     history.push('/instructorPage');             
-            // }else{
-            //     newUserMessage = "Start searching for the classes that work for you on your personal dashboard.";
-            //     alert(`Hi, ${username}, Thanks for joining Anywhere Fitness! ${newUserMessage}`);
-            //     history.push('/clientPage');
-            // }
-            
+            // push to Route for Dialog Welcome Message
+            history.push(`${match.url}/success`);  
         })
         setFormState(initialFormState);
     }
