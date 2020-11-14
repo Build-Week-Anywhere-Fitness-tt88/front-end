@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import {Link, useHistory, useRouteMatch} from 'react-router-dom';
 import * as yup from 'yup';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -118,10 +118,13 @@ const initialFormState = {
 
 export default function LogIn (props) {
     // receive function to set current user as props
-    const {getUser} = props;
+    const {currentUser, getUser} = props;
    
     // get history props using useHistory hook
     const history = useHistory();
+    // get current url with useRouteMatch hook
+    const match = useRouteMatch();
+    console.log(match.url);
 
     // hold state for user login form
     const [formState, setFormState] = useState(initialFormState);
@@ -169,8 +172,7 @@ export default function LogIn (props) {
         .then((response)=> {
             console.log(response.data);
             getUser(response.data);
-            const currentUser = response.data.username;
-            alert(`Success! Welcome Back, ${currentUser}.`);
+            
             if (response.data.instructor){
                 history.push('/instructorPage');
             }else{
