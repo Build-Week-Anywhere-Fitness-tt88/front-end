@@ -151,7 +151,7 @@ export default function SignUp (props) {
     
     const formSchema = yup.object().shape({
         username: yup.string().required('Username is required.').min(6, 'Username must be at least 6 characters.'),
-        password: yup.string().required('Password is required.').min(8,'Password must be at least 8 characters.')
+        password: yup.string().required('Password is required.').min(8,'Password must be at least 8 characters.').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/, 'Password must contain uppercase and lowercase letter, a number, and may contain special characters.')
     });
 
     const validateChange = (name, value) => {
@@ -187,7 +187,7 @@ export default function SignUp (props) {
         const name = e.target.name;
         const value = e.target.type === 'checkbox'? e.target.checked: e.target.value;
         const newUser = {...formState, [name]: value};
-        if (name != 'instructor'){
+        if (name !== 'instructor'){
             validateChange(name, value);
         }
         setFormState(newUser);
