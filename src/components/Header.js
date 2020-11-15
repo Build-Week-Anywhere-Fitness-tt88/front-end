@@ -1,6 +1,7 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom';
+import {NavLink, useHistory} from 'react-router-dom';
 import styled from 'styled-components';
+
 
 const HeaderWrapper = styled.div`
     margin-top: 0;
@@ -94,19 +95,27 @@ const HomeLink = styled.a`
     }
 `;
 
-
-
-
 export default function Header(props){
     const {currentUser} = props;
     console.log(currentUser);
+
+    const history = useHistory();
+
+    const handleHome = (e) => {
+        e.preventDefault();
+        if (currentUser.username !== ''){
+            history.push(`/logout`);
+        }else{
+            window.location.href = 'https://anywhere-fitness-tt88.netlify.app/';
+        }  
+    }
 
     return(
         <HeaderWrapper>
             <HeaderDiv >
                 <HeaderH1>Anywhere Fitness</HeaderH1>
                 <NavLinkDiv>
-                    <HomeLink href='https://anywhere-fitness-tt88.netlify.app/'>Home</HomeLink>
+                    <HomeLink onClick={handleHome}>Home</HomeLink>
                     <NavLinkItem to='/signup'>Sign Up</NavLinkItem>
                     <NavLinkItem to='/login'>Log In</NavLinkItem>
                     <NavLinkItem to='/sampleclasses'>Classes</NavLinkItem>
