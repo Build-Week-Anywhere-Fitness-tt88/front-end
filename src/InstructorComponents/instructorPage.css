@@ -1,0 +1,41 @@
+.component_div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 25%;
+}
+
+.activities_main {
+    display: flex;
+    flex-direction:  column;
+    /* width: 200px; */
+    margin: 10px;
+    padding: 10px;
+    justify-self: center;
+    
+}
+
+li {
+    list-style: none;
+}
+
+input {
+    margin: 5px;
+    height: 30px;
+    border-radius: 7px;
+}
+
+.activity_details {
+    display: flex;
+    flex-direction:  column;
+    width: 70%;
+    margin: 10px;
+    padding: 10px;
+    justify-self: center;
+}
+
+.activity {
+    border: 1px solid purple;
+    margin: 5px;
+    border-radius: 7px;
+}
