@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ActivitiesList } from './ActivitiesList';
 import { ActivityDetails} from './ActivityDetails';
+import './instructorPage.css';
 
 
 export const InstructorPage = () => {
@@ -31,7 +32,7 @@ export const InstructorPage = () => {
     }, []);
 
     return (
-        <div>
+        <div className = "component_div" >
             <ActivitiesList activities={activities} updateActivity={SetActivities}/>
             <ActivityDetails activities={activities}/>
         </div>
