@@ -139,7 +139,7 @@ export default function LogIn (props) {
     // set up formSchema with yup for form validation
     const formSchema = yup.object().shape({
         username: yup.string().required('Username is requred.').min(6, 'Username must be at least 6 characters.'),
-        password: yup.string().required('Password is required').min(8,'Password must be at least 8 characters')
+        password: yup.string().required('Password is required').min(8,'Password must be at least 8 characters').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/, 'Password must contain uppercase and lowercase letter, a number, and may contain special characters.')
     });
 
     // use yup.reach to validate inputs at each user input
