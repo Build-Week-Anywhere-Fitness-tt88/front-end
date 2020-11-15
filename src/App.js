@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import SignUp from './components/SignUp';
 import LogIn from './components/LogIn';
 import SampleClasses from './components/SampleClasses';
+import LogOutWarning from './components/LogOutWarning';
 import './App.css';
 
 import { ClientPage } from './ClientComponents/ClientPage'
@@ -41,6 +42,7 @@ function App() {
 
       {/* Routes */}
       <Switch>
+        <Route path='/logout' render={() => <LogOutWarning currentUser={currentUser} />}/>
         <Route path='/signup' render={()=> <SignUp currentUser={currentUser} getUser={getUser}/>}/>
         <Route path='/login' render={()=> <LogIn currentUser={currentUser} getUser={getUser}/>}/>
         <Route path='/sampleclasses' component={SampleClasses} />

@@ -12,20 +12,21 @@ const Transition = React.forwardRef((props, ref) => {
 });
 
 
-export default function SignUpDialog(props) {
+export default function LogOutWarning(props) {
   const {currentUser} = props;
-  const isInstructor = currentUser.instructor;
   const username = currentUser.username;
+  
+  const [open, setOpen] = useState(true);
   const history = useHistory();
 
-  const [open, setOpen] = useState(true);
   const handleClose = () => {
     setOpen(false);
-    if (isInstructor){
-      history.push('/instructorPage');
-    }else{
-      history.push('/clientPage')
-    }
+    history.goBack();
+  };
+
+  const handleLogOut = () => {
+      setOpen(false);
+      window.location.href = 'https://anywhere-fitness-tt88.netlify.app/';;
   };
 
   const textStyles = {
@@ -64,24 +65,18 @@ export default function SignUpDialog(props) {
               fontWeight: '600',
               color: '#ffffff',
               margin: "0 auto"
-            }}>Success!</span>
+            }}>Hi, {username}!</span>
         </DialogTitle>
         <DialogContent>
-          <DialogContentText><span style={textStyles}>Hi, {username}!</span></DialogContentText>
-          { !!isInstructor ? 
-          <>
-            <DialogContentText><span style={textStyles}>As an instructor, you can get started creating classes on your dashboard.</span></DialogContentText> 
-          </>:
-          <>
-            <DialogContentText><span style={textStyles}>Start searching for the classes that work for you on your personal dashboard.</span></DialogContentText>
-          </>
-          
-          }
-          <DialogContentText><span style={textStyles}>Thanks for joining Anywhere Fitness!</span></DialogContentText>
+            <DialogContentText><span style={textStyles}>Continuing to the Home Page will log you out of your account.</span></DialogContentText> 
+            <DialogContentText><span style={textStyles}>Do you want to continue?</span></DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary" autoFocus>
-            <span style={buttonTextStyles}>Start Now</span>
+            <span style={buttonTextStyles}>Return to your account</span>
+          </Button>
+          <Button onClick={handleLogOut} color="primary">
+            <span style={buttonTextStyles}>Continue to Home</span>
           </Button>
         </DialogActions>
       </Dialog>
