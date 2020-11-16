@@ -12,6 +12,8 @@ export const ClientPage = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
 
+    const [selectValue, setSelectValue] = useState('name')
+
     const people = [
         "Siri",
         "Alexa",
@@ -21,6 +23,9 @@ export const ClientPage = () => {
         "Linkedin",
         "Sinkedin"
       ];
+
+
+    
 
     useEffect(() => {
 
@@ -38,6 +43,7 @@ export const ClientPage = () => {
         
         const results = people.filter(elem => elem.toLowerCase().includes(searchTerm.toLowerCase()))
         
+       
         const resultsTwo = classes.filter(elem => elem.name.toLowerCase().includes(searchTerm.toLowerCase()))
 
         const str = JSON.stringify(resultsTwo);
@@ -46,11 +52,31 @@ export const ClientPage = () => {
 
         setSearchResults(resultsTwo)
 
+        if (selectValue === "name") {
+            const resultsTwo = classes.filter(elem => elem.name.toLowerCase().includes(searchTerm.toLowerCase()))
+            setSearchResults(resultsTwo)
+        } else {
+            const resultsTwo = classes.filter(elem => elem.intensity.toLowerCase().includes(searchTerm.toLowerCase()))
+            setSearchResults(resultsTwo)
+        }
+
+
     },[searchTerm])
 
     const handleChange = e => {
 
         setSearchTerm(e.target.value)
+    }
+
+    const handleSelectChange = e => {
+        
+        setSelectValue(e.target.value)
+        console.log(selectValue)
+    }
+
+    const handleSelectSubmit = e => {
+        console.log(selectValue)
+        e.preventDefault()
     }
     
 
@@ -81,10 +107,15 @@ export const ClientPage = () => {
                 })}
             </ul>
 
-            <select>
+            <form onSubmit={handleSelectSubmit}>
+            <select value={selectValue} onChange={handleSelectChange}>
                 <option value="name">Name</option>
-                <option value="maxClassSize">Max Class Size</option>
+                <option value="intensity">Intensity</option>
             </select>
+            <input type="submit" value="Submit" />
+            </form >
+ 
+
           
             </div>
     )
