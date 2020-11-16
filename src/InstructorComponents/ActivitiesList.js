@@ -69,7 +69,7 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
 
     const addChangeHandler = (e) => {
         e.persist();
-        setAddActivity({ ...addActivity, [e.target.name]: e.target.value });
+        setAddActivity({...addActivity, [e.target.name]: e.target.value });
     };
 
     // Deleting Activity:
@@ -106,16 +106,18 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
 
     const editActivityfunction = (active) => {
         setEditing(true);
+        console.log("EDITING", editing);
         setEditActivity(active);
+        console.log("EDITACTIVITY", editActivty);
     };
 
     const editActivity = (ele) => {
         ele.preventDefault();
         axiosWithAuth()
-            .put(`/classes/${ele.id}`, activities)
+            .put(`/classes/:id`, activities)
             .then((res) => {
                 console.log("EDIT PUT REQUEST", res);
-                setAddActivity(res);
+                updateActivity(res.data);
                 history.push('/instructorPage');
             })
             .catch((err) => {
@@ -132,7 +134,7 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
                     <li key = {item.id} onClick = {() => editActivityfunction(item)}>
                         <span>
                             <span onClick={(e) => {
-                                e.stopPropagation(); //need this purpose
+                                e.stopPropagation(); //need to know this purpose
                                 deleteActivity(item);
                             }}>
                                 X
@@ -143,12 +145,11 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
                 </ul>
                 {editing && (
                     <form onSubmit = {editActivity}>
-                        <legend>Edit Activity</legend>
-                        <label>Activity Name:
+                        <h3>Edit Activity</h3>
                          <input
-                                onChange={(e) => setEditActivity({ ...editActivity, name: e.target.value })}
-                                value={ editActivty.name}/>
-                        </label>
+                            placeholder = "Activity Name"
+                            onChange={(e) => setEditActivity({ ...editActivity, [e.target.name]: e.target.value })}
+                            value={ editActivty.name}/>
                         <div>
                             <button type="submit">Save</button>
                             <button onClick = {() => setEditing(false)}>Cancel</button>
@@ -219,7 +220,7 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
                     <input
                         type="text"
                         name="numberOfRegisteredAttendees"
-                        placeholder="Number Of Registered Attendees"
+                        placeholder="No Of Reg Attendees"
                         value={activities.numberOfRegisteredAttendees}
                         onChange = {addChangeHandler}
                     />
