@@ -1,7 +1,7 @@
 .component_div {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-evenly; 
     width: 25%;
 }
 
@@ -28,7 +28,7 @@ input {
 .activity_details {
     display: flex;
     flex-direction:  column;
-    width: 70%;
+    width: 500px;
     margin: 10px;
     padding: 10px;
     justify-self: center;
