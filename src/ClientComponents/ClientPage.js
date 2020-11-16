@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import axios from  'axios';
 
+import { ClassListContext } from './contexts/ClassListContext'
+import { ClassList } from './components/ClassList';
+
 // Lots of help for setting up search from this guide: https://dev.to/asimdahall/simple-search-form-in-react-using-hooks-42pg
 
 const initialState = [{"id":1,"name":"Cycling","type":"Cardio","date":"Wednesday","duration":"1 hour","intensity":"Difficult","location":"54526 Crooks Vista","numberOfRegisteredAttendees":"99500","maxClassSize":51345}]
@@ -83,40 +86,47 @@ export const ClientPage = () => {
     return (
 
         // Creating a very rudimentary search bar
+        <ClassListContext.Provider value={classes}>
+       
+       <div>
 
-        <div>
+{classes.map(elem => {
+    return (<div id={elem.id}>{elem.name}</div> )
+})}
 
-        {classes.map(elem => {
-            return (<div id={elem.id}>{elem.name}</div> )
+
+
+    <input
+        type="text"
+        placeholder="Search"
+        value={searchTerm}
+        onChange={handleChange}
+    >
+    </input>
+
+    <ul>
+        {searchResults.map(item => {
+            {console.log(`This should show up: ${item}`)}
+            return (<p id={item.id}>{item.name} {item.date} {item.duration} {item.intensity} {item.location} {item.maxClassSize} {item.numberOfRegisteredAttendees} {item.type}</p>)
         })}
+    </ul>
 
-    
-        
-            <input
-                type="text"
-                placeholder="Search"
-                value={searchTerm}
-                onChange={handleChange}
-            >
-            </input>
-        
-            <ul>
-                {searchResults.map(item => {
-                    {console.log(`This should show up: ${item}`)}
-                    return (<p id={item.id}>{item.name} {item.date} {item.duration} {item.intensity} {item.location} {item.maxClassSize} {item.numberOfRegisteredAttendees} {item.type}</p>)
-                })}
-            </ul>
+    <form onSubmit={handleSelectSubmit}>
+    <select value={selectValue} onChange={handleSelectChange}>
+        <option value="name">Name</option>
+        <option value="intensity">Intensity</option>
+    </select>
+    <input type="submit" value="Submit" />
+    </form >
+    </div>
 
-            <form onSubmit={handleSelectSubmit}>
-            <select value={selectValue} onChange={handleSelectChange}>
-                <option value="name">Name</option>
-                <option value="intensity">Intensity</option>
-            </select>
-            <input type="submit" value="Submit" />
-            </form >
+    <p>Class List Component</p>
+    <ClassList></ClassList>
+
+        </ClassListContext.Provider>
  
 
-          
-            </div>
+            
     )
 }
+
