@@ -43,8 +43,6 @@ export const ClientPage = () => {
         const str = JSON.stringify(resultsTwo);
         console.log(`Results Two: ${str}`)
         
-        const strTwo = JSON.stringify(results)
-        console.log(`Results: ${strTwo}`)
 
         setSearchResults(resultsTwo)
 
@@ -62,12 +60,11 @@ export const ClientPage = () => {
 
         <div>
 
-        <p>
         {classes.map(elem => {
-            return (`${elem.name} ` )
+            return (<div id={elem.id}>{elem.name}</div> )
         })}
 
-        </p>
+    
         
             <input
                 type="text"
@@ -80,16 +77,15 @@ export const ClientPage = () => {
             <ul>
                 {searchResults.map(item => {
                     {console.log(`This should show up: ${item}`)}
-                    return (<p>{item.name}</p>)
+                    return (<p id={item.id}>{item.name} {item.date} {item.duration} {item.intensity} {item.location} {item.maxClassSize} {item.numberOfRegisteredAttendees} {item.type}</p>)
                 })}
             </ul>
 
-            <ul>
-                <p>Practice Map</p>
-                {initialState.map(item => {
-                    return (<p>{item.name}</p>)
-                })}
-            </ul>
+            <select>
+                <option value="name">Name</option>
+                <option value="maxClassSize">Max Class Size</option>
+            </select>
+          
             </div>
     )
 }
