@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { axiosWithAuth } from '../util/axiosWithAuth';
 import { useHistory } from 'react-router-dom';
 
-export const ActivitiesList = ({ activities, setActivities }) => {
+export const ActivitiesList = ({ activities, updateActivity }) => {
     console.log("PROPS IN ACTIVITILIST", activities);
 
     // Add Activity:
@@ -88,13 +88,48 @@ export const ActivitiesList = ({ activities, setActivities }) => {
             });
     };
 
+    // Editing Activity: 
+
+    const [editing, setEditing] = useState(false);
+    const [editActivty, setEditActivity] = useState(
+        {
+            name: "",
+            type: "",
+            date: "",
+            duration: "",
+            intensity: "",
+            location: "",
+            numberOfRegisteredAttendees: "",
+            maxClassSize: "",
+        }
+    );
+
+    const editActivityfunction = (active) => {
+        setEditing(true);
+        setEditActivity(active);
+    };
+
+    const editActivity = (ele) => {
+        ele.preventDefault();
+        axiosWithAuth()
+            .put(`/classes/${ele.id}`, activities)
+            .then((res) => {
+                console.log("EDIT PUT REQUEST", res);
+                setAddActivity(res);
+                history.push('/instructorPage');
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
     return (
         <div className = "activities_main">
             <h2> Activities List</h2>
             <div>
             <ul>
                 {activities.map((item) => (
-                    <li key = {item.id}>
+                    <li key = {item.id} onClick = {() => editActivityfunction(item)}>
                         <span>
                             <span onClick={(e) => {
                                 e.stopPropagation(); //need this purpose
@@ -105,8 +140,24 @@ export const ActivitiesList = ({ activities, setActivities }) => {
                         </span>
                     </li>
                 ))}
-            </ul>
+                </ul>
+                {editing && (
+                    <form onSubmit = {editActivity}>
+                        <legend>Edit Activity</legend>
+                        <label>Activity Name:
+                         <input
+                                onChange={(e) => setEditActivity({ ...editActivity, name: e.target.value })}
+                                value={ editActivty.name}/>
+                        </label>
+                        <div>
+                            <button type="submit">Save</button>
+                            <button onClick = {() => setEditing(false)}>Cancel</button>
+                        </div>
+                    </form>
+                )}
             </div>
+        
+        {/* Adding */}
             <div>
             <form>
                 <div onClick={addSubmitHandler}>

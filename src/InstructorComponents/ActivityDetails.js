@@ -6,7 +6,6 @@ export const ActivityDetails = ({activities}) => {
     return (
         <div className = "activity_details">
             <h2> Activity Details</h2>
-
             {activities.map((item) => (
                 <div className = "activity">
                     <h3>{item.name}</h3>
