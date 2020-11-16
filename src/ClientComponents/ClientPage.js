@@ -1,10 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import axios from  'axios';
 
+// Lots of help for setting up search from this guide: https://dev.to/asimdahall/simple-search-form-in-react-using-hooks-42pg
 
-const initialState = { 
-
-}
+const initialState = [{"id":1,"name":"Cycling","type":"Cardio","date":"Wednesday","duration":"1 hour","intensity":"Difficult","location":"54526 Crooks Vista","numberOfRegisteredAttendees":"99500","maxClassSize":51345}]
 
 export const ClientPage = () => {
 
@@ -38,7 +37,16 @@ export const ClientPage = () => {
             })
         
         const results = people.filter(elem => elem.toLowerCase().includes(searchTerm.toLowerCase()))
-        setSearchResults(results)
+        
+        const resultsTwo = classes.filter(elem => elem.name.toLowerCase().includes(searchTerm.toLowerCase()))
+
+        const str = JSON.stringify(resultsTwo);
+        console.log(`Results Two: ${str}`)
+        
+        const strTwo = JSON.stringify(results)
+        console.log(`Results: ${strTwo}`)
+
+        setSearchResults(resultsTwo)
 
     },[searchTerm])
 
@@ -72,7 +80,14 @@ export const ClientPage = () => {
             <ul>
                 {searchResults.map(item => {
                     {console.log(`This should show up: ${item}`)}
-                    return (<li>{item}</li>)
+                    return (<p>{item.name}</p>)
+                })}
+            </ul>
+
+            <ul>
+                <p>Practice Map</p>
+                {initialState.map(item => {
+                    return (<p>{item.name}</p>)
                 })}
             </ul>
             </div>
