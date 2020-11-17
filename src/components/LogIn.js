@@ -90,7 +90,6 @@ const Input = styled.input`
     font-size: 1.8rem;
     margin-bottom: 16px;
     background-color: #ffffff;
-
 `;
 
 const Errors = styled.p`
