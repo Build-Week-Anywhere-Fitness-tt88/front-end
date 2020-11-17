@@ -97,7 +97,7 @@ const HomeLink = styled.a`
 
 export default function Header(props){
     const {currentUser} = props;
-    console.log(currentUser);
+    // console.log(currentUser);
 
     const history = useHistory();
 

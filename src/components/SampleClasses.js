@@ -147,9 +147,11 @@ const Button = styled.button`
     border: 1px solid #ffffff;
     background-color: transparent;
     padding: 16px 30px;
+    border-radius: 0;
     text-transform: uppercase;
     font-size: 1.6rem;
     color: #ffffff;
+    cursor: pointer;
     &:hover{
         border-color: #9bf1ff;
         color: #9bf1ff;
@@ -163,21 +165,22 @@ export default function SampleClasses() {
     const [classes, setClasses] = useState([]);
     const history = useHistory();
     // Set up axios get request to get classlist object from server
-    // useEffect(()=> {
-    //     axios.get('/sampleclasses')
-    //     .then(response => console.log(response.data))
-    // }, [])
+    useEffect(()=> {
+        axios.get('https://anywhere-fitness-tt-webpt-88.herokuapp.com/')
+        .then(response => setClasses(response.data))
+        .catch(err => console.log(err))
+    }, [])
 
     // temp test data submit to reqres.in/api/users to get response for state
-    useEffect(()=>{
-        axios
-        .post('https://reqres.in/api/users', sampleClasses)
-        .then(response => {
-            console.log(response.data);
-            setClasses(response.data);
-        })
-        .catch(err => console.log(err))
-    },[])
+    // useEffect(()=>{
+    //     axios
+    //     .post('https://reqres.in/api/users', sampleClasses)
+    //     .then(response => {
+    //         console.log(response.data);
+    //         setClasses(response.data);
+    //     })
+    //     .catch(err => console.log(err))
+    // },[])
 
     return (
         <ClassesComponentDiv >

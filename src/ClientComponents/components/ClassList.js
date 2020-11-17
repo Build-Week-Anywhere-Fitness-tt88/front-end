@@ -8,8 +8,9 @@ export const ClassList = () => {
 
     //const { products, addItem } = useContext(ProductContext)
     const { classes } = useContext(ClassListContext)
-    
+
     return (
+        
         <p>Context is working!</p>
     )
 }
