@@ -81,9 +81,16 @@ const Required = styled.span`
 `;
 
 const Input = styled.input`
+    margin: 0;
+    height: auto;
+    border-radius: 0;
     padding-left: 8px;
+    padding-top: 6px;
+    padding-bottom: 6px;
     font-size: 1.8rem;
     margin-bottom: 16px;
+    background-color: #ffffff;
+
 `;
 
 const Errors = styled.p`
@@ -96,11 +103,13 @@ const Errors = styled.p`
 const SubmitButton = styled.button`
     border: 1px solid #ffffff;
     background-color: transparent;
-    padding: 12px 30px;
+    padding: 8px 30px;
     text-transform: uppercase;
     font-size: 1.6rem;
     cursor: pointer;
     color: #ffffff;
+    border-radius: 0;
+    margin-top: 10px;
     &:hover{
         border-color: #9bf1ff;
         color: #9bf1ff;
