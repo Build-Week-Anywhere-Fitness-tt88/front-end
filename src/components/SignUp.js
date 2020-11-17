@@ -80,7 +80,7 @@ const SelectGroup = styled.div`
 `;
 const Select = styled.select`
     font-size: inherit;
-    
+    padding-left: 8px;
     `;
 const Label = styled.label`
     margin-right: auto;
@@ -243,9 +243,9 @@ export default function SignUp (props) {
                     />
                 </CheckBoxGroup> */}
                 <SelectGroup>
-                    <Label htmlFor="role">Select Instructor/Student</Label>
+                    <Label htmlFor="role">Account Type</Label>
                     <Select name="role" id="role" value={formState.role} onChange={handleChange}>
-                        <option value="">--select your role--</option>
+                        <option value="">-- select your role --</option>
                         <option value="student">Student</option>
                         <option value="instructor">Instructor</option>
                     </Select>
