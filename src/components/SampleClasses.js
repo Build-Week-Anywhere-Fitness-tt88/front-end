@@ -147,9 +147,11 @@ const Button = styled.button`
     border: 1px solid #ffffff;
     background-color: transparent;
     padding: 16px 30px;
+    border-radius: 0;
     text-transform: uppercase;
     font-size: 1.6rem;
     color: #ffffff;
+    cursor: pointer;
     &:hover{
         border-color: #9bf1ff;
         color: #9bf1ff;
