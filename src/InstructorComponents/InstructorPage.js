@@ -3,6 +3,7 @@ import axios from 'axios';
 import { ActivitiesList } from './ActivitiesList';
 import { ActivityDetails} from './ActivityDetails';
 import './instructorPage.css';
+import { axiosWithAuth } from '../util/axiosWithAuth';
 
 
 export const InstructorPage = () => {

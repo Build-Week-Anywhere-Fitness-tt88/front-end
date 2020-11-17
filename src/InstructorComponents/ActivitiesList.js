@@ -20,18 +20,18 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
         }
     );
 
-    const addActivityFunction = (e) => { 
+    const addActivityFunction = (e) => {
         const newActivity = {
             name: e.name,
             type: e.type,
             date: e.date,
             duration: e.duration,
             intensity: e.intensity,
-            location : e.location,
+            location: e.location,
             numberOfRegisteredAttendees: e.numberOfRegisteredAttendees,
             maxClassSize: e.maxClassSize,
         };
-        setAddActivity([newActivity ]);
+        setAddActivity({newActivity });
     };
 
     const addSubmitHandler = (e) => {
@@ -45,7 +45,7 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
             intensity: "",
             location: "",
             numberOfRegisteredAttendees: "",
-            maxClassSize: "",
+            maxClassSize: ""
         });
 
         axiosWithAuth()
@@ -114,10 +114,10 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
     const editActivity = (ele) => {
         ele.preventDefault();
         axiosWithAuth()
-            .put(`/classes/:id`, activities)
+            .put(`/classes/${ele.id}`, activities)
             .then((res) => {
                 console.log("EDIT PUT REQUEST", res);
-                updateActivity(res.data);
+                updateActivity(res);
                 history.push('/instructorPage');
             })
             .catch((err) => {
@@ -133,7 +133,7 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
                 {activities.map((item) => (
                     <li key = {item.id} onClick = {() => editActivityfunction(item)}>
                         <span>
-                            <span onClick={(e) => {
+                            <span className = "delete" onClick={(e) => {
                                 e.stopPropagation(); //need to know this purpose
                                 deleteActivity(item);
                             }}>
@@ -146,10 +146,21 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
                 {editing && (
                     <form onSubmit = {editActivity}>
                         <h3>Edit Activity</h3>
-                         <input
-                            placeholder = "Activity Name"
-                            onChange={(e) => setEditActivity({ ...editActivity, [e.target.name]: e.target.value })}
-                            value={ editActivty.name}/>
+                        <div>
+                            <input
+                                onChange={(e) => setEditActivity({ ...editActivity, [e.target.name]: e.target.value })}
+                                value={editActivty.name} />
+                        </div>
+                        <div>
+                            <input
+                                onChange={(e) => setEditActivity({ ...editActivity, [e.target.name]: e.target.value })}
+                                value={ editActivty.type}/>
+                        </div>
+                        <div>
+                            <input
+                                onChange={(e) => setEditActivity({ ...editActivity, [e.target.name]: e.target.value })}
+                                value={ editActivty.date}/>
+                        </div>
                         <div>
                             <button type="submit">Save</button>
                             <button onClick = {() => setEditing(false)}>Cancel</button>
@@ -160,8 +171,8 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
         
         {/* Adding */}
             <div>
-            <form>
-                <div onClick={addSubmitHandler}>
+            <form onSubmit={addSubmitHandler}>
+                <div>
                     <h3>Add Activity</h3>
                     <input
                         type = "text"
