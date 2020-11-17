@@ -14,14 +14,14 @@ const Transition = React.forwardRef((props, ref) => {
 
 export default function SignUpDialog(props) {
   const {currentUser} = props;
-  const isInstructor = currentUser.instructor;
+  const role = currentUser.role;
   const username = currentUser.username;
   const history = useHistory();
 
   const [open, setOpen] = useState(true);
   const handleClose = () => {
     setOpen(false);
-    if (isInstructor){
+    if (role === 'instructor'){
       history.push('/instructorPage');
     }else{
       history.push('/clientPage')
@@ -68,7 +68,7 @@ export default function SignUpDialog(props) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText><span style={textStyles}>Hi, {username}!</span></DialogContentText>
-          { !!isInstructor ? 
+          { !!(role === 'instructor') ? 
           <>
             <DialogContentText><span style={textStyles}>As an instructor, you can get started creating classes on your dashboard.</span></DialogContentText> 
           </>:

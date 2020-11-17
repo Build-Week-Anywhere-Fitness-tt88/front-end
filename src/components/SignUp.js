@@ -71,14 +71,17 @@ const FormGroup = styled.div`
     align-items: flex-start;
 `;
 
-const CheckBoxGroup = styled.div`
+const SelectGroup = styled.div`
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: baseline;
+    flex-direction: column;
+    padding-left: 8px;
+    font-size: 1.8rem;
     margin-bottom: 16px;
 `;
- 
+const Select = styled.select`
+    font-size: inherit;
+    padding-left: 8px;
+    `;
 const Label = styled.label`
     margin-right: auto;
     margin-bottom: 10px;
@@ -125,7 +128,7 @@ const SubmitButton = styled.button`
 const initialFormState = {
     username: '',
     password: '',
-    instructor: false
+    role: ''
 };
 
 export default function SignUp (props) {
@@ -146,12 +149,14 @@ export default function SignUp (props) {
     // hold state for errors from yup validation
     const [errors, setErrors] = useState({
         username: '',
-        password: ''
+        password: '',
+        role: ''
     })
     
     const formSchema = yup.object().shape({
         username: yup.string().required('Username is required.').min(6, 'Username must be at least 6 characters.'),
-        password: yup.string().required('Password is required.').min(8,'Password must be at least 8 characters.').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/, 'Password must contain uppercase and lowercase letter, a number, and may contain special characters.')
+        password: yup.string().required('Password is required.').min(8,'Password must be at least 8 characters.').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/, 'Password must contain uppercase and lowercase letter, a number, and may contain special characters.'),
+        role: yup.string().oneOf(['student', 'instructor'], "Please select a role.")
     });
 
     const validateChange = (name, value) => {
@@ -185,11 +190,9 @@ export default function SignUp (props) {
 
     const handleChange = (e) => {
         const name = e.target.name;
-        const value = e.target.type === 'checkbox'? e.target.checked: e.target.value;
+        const value = e.target.value;
         const newUser = {...formState, [name]: value};
-        if (name !== 'instructor'){
-            validateChange(name, value);
-        }
+        validateChange(name, value);
         setFormState(newUser);
     }
     
@@ -230,7 +233,7 @@ export default function SignUp (props) {
                     />
                 </FormGroup>
                 {errors.password.length > 0 ? <Errors>{errors.password}</Errors> : null}
-                <CheckBoxGroup>
+                {/* <CheckBoxGroup>
                     <Label htmlFor='instructor'>Instructor:</Label>
                     <Input type='checkbox'
                     id='instructor'
@@ -238,7 +241,16 @@ export default function SignUp (props) {
                     checked={formState.instructor}
                     onChange={handleChange}
                     />
-                </CheckBoxGroup>
+                </CheckBoxGroup> */}
+                <SelectGroup>
+                    <Label htmlFor="role">Account Type</Label>
+                    <Select name="role" id="role" value={formState.role} onChange={handleChange}>
+                        <option value="">-- select your role --</option>
+                        <option value="student">Student</option>
+                        <option value="instructor">Instructor</option>
+                    </Select>
+                </SelectGroup>
+                {errors.role.length > 0 ? <Errors>{errors.role}</Errors> : null}
                 <SubmitButton disabled={buttonDisabled} type='submit'>Submit</SubmitButton>
             </Form>
             <Route path={`${match.url}/success`}>

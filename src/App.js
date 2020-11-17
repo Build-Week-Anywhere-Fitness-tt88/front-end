@@ -19,8 +19,7 @@ function App() {
       id: '',
       username: '',
       password: '',
-      instructor: false
-      
+      role: '' 
     });
 
   // function to get the current logged in user, passed as props to signup and login forms
@@ -29,7 +28,8 @@ function App() {
     const loggedInUser = {...currentUser,
       id: user.id,
       username: user.username,
-      instructor: user.instructor
+      password: user.password,
+      role: user.role
     }
     setCurrentUser(loggedInUser);
   }
