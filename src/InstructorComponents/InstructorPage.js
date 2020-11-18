@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ActivitiesList } from './ActivitiesList';
 import { ActivityDetails} from './ActivityDetails';
 import './instructorPage.css';
-import { axiosWithAuth } from '../util/axiosWithAuth';
+// import { axiosWithAuth } from '../util/axiosWithAuth';
 
 
 export const InstructorPage = () => {
@@ -16,7 +16,7 @@ export const InstructorPage = () => {
             intensity: "",
             location : "",
             numberOfRegisteredAttendees: "",
-            maxClassSize: "",
+            maxClassSize: 0,
         }
     ]);
 
@@ -34,7 +34,7 @@ export const InstructorPage = () => {
 
     return (
         <div className = "component_div" >
-            <ActivitiesList activities={activities} updateActivity={SetActivities}/>
+            <ActivitiesList activities={activities}/>
             <ActivityDetails activities={activities}/>
         </div>
         

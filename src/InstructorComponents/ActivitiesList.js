@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { axiosWithAuth } from '../util/axiosWithAuth';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
-export const ActivitiesList = ({ activities, updateActivity }) => {
+export const ActivitiesList = ({ activities }) => {
     console.log("PROPS IN ACTIVITILIST", activities);
-
+    useEffect(() => { }, []);
     // Add Activity:
 
     const [addActivity, setAddActivity] = useState(
@@ -16,7 +17,7 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
             intensity: "",
             location: "",
             numberOfRegisteredAttendees: "",
-            maxClassSize: "",
+            maxClassSize: 0,
         }
     );
 
@@ -31,7 +32,7 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
             numberOfRegisteredAttendees: e.numberOfRegisteredAttendees,
             maxClassSize: e.maxClassSize,
         };
-        setAddActivity({newActivity });
+        setAddActivity([newActivity]);
     };
 
     const addSubmitHandler = (e) => {
@@ -45,11 +46,11 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
             intensity: "",
             location: "",
             numberOfRegisteredAttendees: "",
-            maxClassSize: ""
+            maxClassSize: 0
         });
-
-        axiosWithAuth()
-            .post(`/classes`, {
+       
+        axios
+            .post(`https://anywhere-fitness-tt-webpt-88.herokuapp.com/classes`, {
                 name: addActivity.name,
                 type: addActivity.type,
                 date: addActivity.date,
@@ -60,7 +61,9 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
                 maxClassSize: addActivity.maxClassSize})
             .then((res) => {
                 console.log("ADDING POST REQUEST", res);
-                localStorage.setItem("token", res.data)
+                setAddActivity(res.data);
+                localStorage.setItem("token", res.data);
+                history.push('/instructorPage');
             })
             .catch((err) => {
                 console.log(err);
@@ -69,7 +72,8 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
 
     const addChangeHandler = (e) => {
         e.persist();
-        setAddActivity({...addActivity, [e.target.name]: e.target.value });
+        setAddActivity({ ...addActivity, [e.target.name]: e.target.value });
+        console.log("addChangeHandler",addActivity);
     };
 
     // Deleting Activity:
@@ -77,10 +81,11 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
     const history = useHistory();
 
     const deleteActivity = (item) => {
-        axiosWithAuth()
-            .delete(`/classes/${item.id}`)
+        axios
+            .delete(`https://anywhere-fitness-tt-webpt-88.herokuapp.com/classes/${item.id}`)
             .then((res) => {
                 console.log("DELETE REQUEST", res);
+
                 history.push('/instructorPage');
             })
             .catch((err) => {
@@ -89,9 +94,8 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
     };
 
     // Editing Activity: 
-
     const [editing, setEditing] = useState(false);
-    const [editActivty, setEditActivity] = useState(
+    const [editActivity, setEditActivity] = useState(
         {
             name: "",
             type: "",
@@ -100,7 +104,7 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
             intensity: "",
             location: "",
             numberOfRegisteredAttendees: "",
-            maxClassSize: "",
+            maxClassSize: 0,
         }
     );
 
@@ -108,16 +112,25 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
         setEditing(true);
         console.log("EDITING", editing);
         setEditActivity(active);
-        console.log("EDITACTIVITY", editActivty);
+        console.log("EDITACTIVITY", editActivity);
     };
 
-    const editActivity = (ele) => {
+    const editSubmitHandler = (ele) => {
         ele.preventDefault();
-        axiosWithAuth()
-            .put(`/classes/${ele.id}`, activities)
+        axios
+            .put(`https://anywhere-fitness-tt-webpt-88.herokuapp.com/classes/${editActivity.id}`, {
+                name: editActivity.name,
+                type: editActivity.type,
+                date: editActivity.date,
+                duration: editActivity.duration,
+                intensity: editActivity.intensity,
+                location: editActivity.location,
+                numberOfRegisteredAttendees: editActivity.numberOfRegisteredAttendees,
+                maxClassSize: editActivity.maxClassSize})
             .then((res) => {
                 console.log("EDIT PUT REQUEST", res);
-                updateActivity(res);
+                // updateActivity(res);
+                setEditActivity(res);
                 history.push('/instructorPage');
             })
             .catch((err) => {
@@ -125,16 +138,22 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
             });
     };
 
+    const editChangeHandler = (e) => {
+        e.persist();
+        setEditActivity({ ...editActivity, [e.target.name]: e.target.value });
+    }
+
     return (
         <div className = "activities_main">
             <h2> Activities List</h2>
             <div>
             <ul>
                 {activities.map((item) => (
-                    <li key = {item.id} onClick = {() => editActivityfunction(item)}>
+                    <li key={item.id} onClick={() => {editActivityfunction(item); console.log(item)}}>
+                        
                         <span>
                             <span className = "delete" onClick={(e) => {
-                                e.stopPropagation(); //need to know this purpose
+                                // e.stopPropagation(); //need to know this purpose
                                 deleteActivity(item);
                             }}>
                                 X
@@ -144,22 +163,43 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
                 ))}
                 </ul>
                 {editing && (
-                    <form onSubmit = {editActivity}>
+                    <form onSubmit = {editSubmitHandler}>
                         <h3>Edit Activity</h3>
                         <div>
                             <input
-                                onChange={(e) => setEditActivity({ ...editActivity, [e.target.name]: e.target.value })}
-                                value={editActivty.name} />
+                                name = "name"
+                                onChange={editChangeHandler}
+                                value={editActivity.name} />
                         </div>
                         <div>
                             <input
-                                onChange={(e) => setEditActivity({ ...editActivity, [e.target.name]: e.target.value })}
-                                value={ editActivty.type}/>
+                                name = "type"
+                                onChange={editChangeHandler}
+                                value={ editActivity.type}/>
                         </div>
                         <div>
                             <input
-                                onChange={(e) => setEditActivity({ ...editActivity, [e.target.name]: e.target.value })}
-                                value={ editActivty.date}/>
+                                name = "date"
+                                onChange={editChangeHandler}
+                                value={ editActivity.date}/>
+                        </div>
+                        <div>
+                            <input
+                                name = "duration"
+                                onChange={editChangeHandler}
+                                value={ editActivity.duration}/>
+                        </div>
+                        <div>
+                            <input
+                                name = "intensity"
+                                onChange={editChangeHandler}
+                                value={ editActivity.intensity}/>
+                        </div>
+                        <div>
+                            <input
+                                name = "location"
+                                onChange={editChangeHandler}
+                                value={ editActivity.location}/>
                         </div>
                         <div>
                             <button type="submit">Save</button>

@@ -14,13 +14,13 @@ export const ActivityDetails = ({activities}) => {
             <h2> Activity Details</h2>
             {activities.map((item) => (
                 <div className="activity">
-                    <div>
+                    <div  key = {item.id}>
                         <h3>{item.name}</h3>
-                        <p>{ item.type}</p>
-                        <p>{ item.date}</p>
-                        <p>{ item.duration}</p>
-                        <p>{ item.intensity}</p>
-                        <p>{item.location}</p>
+                        <p className = "paragraph">{ item.type}</p>
+                        <p className = "paragraph">{ item.date}</p>
+                        <p className = "paragraph">{ item.duration}</p>
+                        <p className = "paragraph">{ item.intensity}</p>
+                        <p className = "paragraph">{item.location}</p>
                     </div>
                     <div>
                         <button onClick = {() => addToCart(item)}>Enroll</button>
