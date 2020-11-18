@@ -4,6 +4,8 @@ import axios from  'axios';
 import { ClassListContext } from './contexts/ClassListContext'
 import { ClassList } from './components/ClassList';
 
+import './components/ClassList.css'
+
 // Lots of help for setting up search from this guide: https://dev.to/asimdahall/simple-search-form-in-react-using-hooks-42pg
 
 const initialState = [{"id":1,"name":"Cycling","type":"Cardio","date":"Wednesday","duration":"1 hour","intensity":"Difficult","location":"54526 Crooks Vista","numberOfRegisteredAttendees":"99500","maxClassSize":51345}]
@@ -47,21 +49,38 @@ export const ClientPage = () => {
         const results = people.filter(elem => elem.toLowerCase().includes(searchTerm.toLowerCase()))
         
        
-        const resultsTwo = classes.filter(elem => elem.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        // const resultsTwo = classes.filter(elem => elem.name.toLowerCase().includes(searchTerm.toLowerCase()))
 
-        const str = JSON.stringify(resultsTwo);
-        console.log(`Results Two: ${str}`)
+        //const str = JSON.stringify(resultsTwo);
+        //console.log(`Results Two: ${str}`)
         
 
-        setSearchResults(resultsTwo)
+        //setSearchResults(resultsTwo)
 
         if (selectValue === "name") {
             const resultsTwo = classes.filter(elem => elem.name.toLowerCase().includes(searchTerm.toLowerCase()))
             setSearchResults(resultsTwo)
-        } else {
+        } else if (selectValue === "intensity") {
             const resultsTwo = classes.filter(elem => elem.intensity.toLowerCase().includes(searchTerm.toLowerCase()))
             setSearchResults(resultsTwo)
+        } else if (selectValue === "type") {
+            const resultsTwo = classes.filter(elem => elem.type.toLowerCase().includes(searchTerm.toLowerCase()))
+            setSearchResults(resultsTwo)
+        } else if (selectValue === "date") {
+            const resultsTwo = classes.filter(elem => elem.date.toLowerCase().includes(searchTerm.toLowerCase()))
+            setSearchResults(resultsTwo)
+        } else if (selectValue === "duration") {
+            const resultsTwo = classes.filter(elem => elem.duration.toLowerCase().includes(searchTerm.toLowerCase()))
+            setSearchResults(resultsTwo)
+        } else if (selectValue === "location") {
+            const resultsTwo = classes.filter(elem => elem.location.toLowerCase().includes(searchTerm.toLowerCase()))
+            setSearchResults(resultsTwo)
+        } else if (selectValue === "numberOfRegisteredAttendees") {
+            const resultsTwo = classes.filter(elem => elem.numberOfRegisteredAttendees.toLowerCase().includes(searchTerm.toLowerCase()))
+            setSearchResults(resultsTwo)
         }
+
+
 
 
     },[searchTerm])
@@ -86,16 +105,10 @@ export const ClientPage = () => {
     return (
 
         // Creating a very rudimentary search bar
-        <ClassListContext.Provider value={classes}>
+        <ClassListContext.Provider value={{classes}}>
        
        <div>
-
-{classes.map(elem => {
-    return (<div id={elem.id}>{elem.name}</div> )
-})}
-
-
-
+       <ClassList></ClassList>
     <input
         type="text"
         placeholder="Search"
@@ -104,24 +117,30 @@ export const ClientPage = () => {
     >
     </input>
 
-    <ul>
+
         {searchResults.map(item => {
             {console.log(`This should show up: ${item}`)}
-            return (<p id={item.id}>{item.name} {item.date} {item.duration} {item.intensity} {item.location} {item.maxClassSize} {item.numberOfRegisteredAttendees} {item.type}</p>)
+            return (<p id="searchResults" id={item.id}>{item.name} {item.date} {item.duration} {item.intensity} {item.location} {item.maxClassSize} {item.numberOfRegisteredAttendees} {item.type}</p>)
         })}
-    </ul>
+
+ 
+
 
     <form onSubmit={handleSelectSubmit}>
     <select value={selectValue} onChange={handleSelectChange}>
         <option value="name">Name</option>
         <option value="intensity">Intensity</option>
+        <option value="type">Type</option>
+        <option value="date">Date</option>
+        <option value="duration">Duration</option>
+        <option value="location">Location</option>
+        <option value="numberOfRegisteredAttendees">Number of Registered Attendees</option>
     </select>
     <input type="submit" value="Submit" />
     </form >
     </div>
 
-    <p>Class List Component</p>
-    <ClassList></ClassList>
+    
 
         </ClassListContext.Provider>
  
