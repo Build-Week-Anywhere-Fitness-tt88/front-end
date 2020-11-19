@@ -27,6 +27,15 @@ ul {
     padding: 0px;
 }
 
+.delete {
+    border: 1px solid white;
+    border-radius: 2px;
+    padding: 2px;
+    font-size: 1rem;
+    margin: 3px;
+    padding: 0 2px;
+}
+
 li {
     list-style: none;
     color: white;
@@ -34,6 +43,7 @@ li {
     font-family: Source Sans Pro, sans-serif;
     cursor: pointer;
     text-align: center;
+    line-height: 2.5rem;
 }
 
 input {
@@ -57,7 +67,7 @@ input {
 .activity {
     border: 1px solid rgb(188, 133, 214);
     margin: 5px;
-    border-radius: 7px;
+    border-radius: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -70,7 +80,7 @@ h3 {
     font-family: Source Sans Pro, sans-serif;
 }
 
-p {
+.paragraph {
     color: white;
     font-size: 1.75rem;
     font-family: Source Sans Pro, sans-serif;
