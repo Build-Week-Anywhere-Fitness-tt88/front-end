@@ -8,9 +8,9 @@ import SampleClasses from './components/SampleClasses';
 import LogOutWarning from './components/LogOutWarning';
 import './App.css';
 
-import { ClientPage } from './ClientComponents/ClientPage'
+import { ClientPage } from './ClientComponents/ClientPage';
 import { InstructorPage } from './InstructorComponents/InstructorPage';
-
+import { PrivateRoute } from './components/PrivateRoute';
 
 function App() {
 
@@ -48,9 +48,10 @@ function App() {
         <Route path='/sampleclasses' component={SampleClasses} />
 
         {/* Will change later to private routes once authentication token is finished */}
-        <Route path='/clientPage' render={()=> <ClientPage getUser={getUser}/>}/>
-        <Route path='/instructorPage' render={()=> <InstructorPage getUser={getUser}/>}/>
-
+        {/* <Route path='/clientPage' render={()=> <ClientPage getUser={getUser}/>}/> */}
+        {/* <Route path='/instructorPage' render={()=> <InstructorPage getUser={getUser}/>}/> */}
+        <PrivateRoute path='/clientPage' component={ClientPage}/>
+        <PrivateRoute path='/instructorPage' component={InstructorPage}/>
       </Switch>
 
       <Footer />

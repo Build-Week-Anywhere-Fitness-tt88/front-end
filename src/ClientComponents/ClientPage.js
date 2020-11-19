@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import axios from  'axios';
 
-import { ClassListContext } from './contexts/ClassListContext'
+import { ClassListContext } from './contexts/ClassListContext';
 import { ClassList } from './components/ClassList';
+import { axiosWithAuth } from '../util/axiosWithAuth';
 
 import './components/ClassList.css'
 
@@ -35,7 +36,7 @@ export const ClientPage = () => {
     useEffect(() => {
 
         // Retrieving the data from the server
-        axios
+        axiosWithAuth()
             .get('https://anywhere-fitness-tt-webpt-88.herokuapp.com/classes')
             .then(res => {
                 console.log(res.data)
