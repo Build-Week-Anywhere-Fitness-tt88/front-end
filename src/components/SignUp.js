@@ -185,7 +185,7 @@ export default function SignUp (props) {
 
         // set up axios POST request to sign up a new user
         axios
-        .post('https://reqres.in/api/users', formState)
+        .post('https://anywhere-fitness-tt-webpt-88.herokuapp.com/users/sign-up', formState)
         .then(response => {
             console.log(response.data);
             // getUser will update currentUser state on App component

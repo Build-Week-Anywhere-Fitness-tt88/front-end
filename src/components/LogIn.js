@@ -176,11 +176,13 @@ export default function LogIn (props) {
 
         // sample axios POST request -- switch to BE when routes are ready
         axios
-        .post('https://reqres.in/api/users', formState)
+        .post('https://anywhere-fitness-tt-webpt-88.herokuapp.com/users/login', formState)
         .then((response)=> {
+            console.log("Below this is the response.data")
             console.log(response.data);
             getUser(response.data);
-            
+            localStorage.setItem('token', response.data.token)
+
             if (response.data.instructor){
                 history.push('/instructorPage');
             }else{
