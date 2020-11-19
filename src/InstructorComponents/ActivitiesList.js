@@ -1,129 +1,7 @@
-import React, { useState } from 'react';
-import { axiosWithAuth } from '../util/axiosWithAuth';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
 
-export const ActivitiesList = ({ activities, updateActivity }) => {
-    console.log("PROPS IN ACTIVITILIST", activities);
-
-    // Add Activity:
-
-    const [addActivity, setAddActivity] = useState(
-        {
-            name: "",
-            type: "",
-            date: "",
-            duration: "",
-            intensity: "",
-            location: "",
-            numberOfRegisteredAttendees: "",
-            maxClassSize: "",
-        }
-    );
-
-    const addActivityFunction = (e) => { 
-        const newActivity = {
-            name: e.name,
-            type: e.type,
-            date: e.date,
-            duration: e.duration,
-            intensity: e.intensity,
-            location : e.location,
-            numberOfRegisteredAttendees: e.numberOfRegisteredAttendees,
-            maxClassSize: e.maxClassSize,
-        };
-        setAddActivity([newActivity ]);
-    };
-
-    const addSubmitHandler = (e) => {
-        e.preventDefault();
-        addActivityFunction(addActivity);
-        setAddActivity({
-            name: "",
-            type: "",
-            date: "",
-            duration: "",
-            intensity: "",
-            location: "",
-            numberOfRegisteredAttendees: "",
-            maxClassSize: "",
-        });
-
-        axiosWithAuth()
-            .post(`/classes`, {
-                name: addActivity.name,
-                type: addActivity.type,
-                date: addActivity.date,
-                duration: addActivity.duration,
-                intensity: addActivity.intensity,
-                location: addActivity.location,
-                numberOfRegisteredAttendees: addActivity.numberOfRegisteredAttendees,
-                maxClassSize: addActivity.maxClassSize})
-            .then((res) => {
-                console.log("ADDING POST REQUEST", res);
-                localStorage.setItem("token", res.data)
-            })
-            .catch((err) => {
-                console.log(err);
-        })
-    };
-
-    const addChangeHandler = (e) => {
-        e.persist();
-        setAddActivity({...addActivity, [e.target.name]: e.target.value });
-    };
-
-    // Deleting Activity:
-
-    const history = useHistory();
-
-    const deleteActivity = (item) => {
-        axiosWithAuth()
-            .delete(`/classes/${item.id}`)
-            .then((res) => {
-                console.log("DELETE REQUEST", res);
-                history.push('/instructorPage');
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
-
-    // Editing Activity: 
-
-    const [editing, setEditing] = useState(false);
-    const [editActivty, setEditActivity] = useState(
-        {
-            name: "",
-            type: "",
-            date: "",
-            duration: "",
-            intensity: "",
-            location: "",
-            numberOfRegisteredAttendees: "",
-            maxClassSize: "",
-        }
-    );
-
-    const editActivityfunction = (active) => {
-        setEditing(true);
-        console.log("EDITING", editing);
-        setEditActivity(active);
-        console.log("EDITACTIVITY", editActivty);
-    };
-
-    const editActivity = (ele) => {
-        ele.preventDefault();
-        axiosWithAuth()
-            .put(`/classes/:id`, activities)
-            .then((res) => {
-                console.log("EDIT PUT REQUEST", res);
-                updateActivity(res.data);
-                history.push('/instructorPage');
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
+export const ActivitiesList = ({ activities, deleteActivity, addSubmitHandler, addChangeHandler, editing, setEditing, editActivity, editActivityfunction, editSubmitHandler, editChangeHandler }) => {
+    console.log("PROPS IN ACTIVITILIST - ACTIVITIES STATE", activities);
 
     return (
         <div className = "activities_main">
@@ -131,10 +9,11 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
             <div>
             <ul>
                 {activities.map((item) => (
-                    <li key = {item.id} onClick = {() => editActivityfunction(item)}>
+                    <li key={item.id} onClick={() => {editActivityfunction(item); console.log(item)}}>
+                        
                         <span>
-                            <span onClick={(e) => {
-                                e.stopPropagation(); //need to know this purpose
+                            <span className = "delete" onClick={(e) => {
+                                // e.stopPropagation(); //need to know this purpose
                                 deleteActivity(item);
                             }}>
                                 X
@@ -144,12 +23,44 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
                 ))}
                 </ul>
                 {editing && (
-                    <form onSubmit = {editActivity}>
+                    <form onSubmit = {editSubmitHandler}>
                         <h3>Edit Activity</h3>
-                         <input
-                            placeholder = "Activity Name"
-                            onChange={(e) => setEditActivity({ ...editActivity, [e.target.name]: e.target.value })}
-                            value={ editActivty.name}/>
+                        <div>
+                            <input
+                                name = "name"
+                                onChange={editChangeHandler}
+                                value={editActivity.name} />
+                        </div>
+                        <div>
+                            <input
+                                name = "type"
+                                onChange={editChangeHandler}
+                                value={ editActivity.type}/>
+                        </div>
+                        <div>
+                            <input
+                                name = "date"
+                                onChange={editChangeHandler}
+                                value={ editActivity.date}/>
+                        </div>
+                        <div>
+                            <input
+                                name = "duration"
+                                onChange={editChangeHandler}
+                                value={ editActivity.duration}/>
+                        </div>
+                        <div>
+                            <input
+                                name = "intensity"
+                                onChange={editChangeHandler}
+                                value={ editActivity.intensity}/>
+                        </div>
+                        <div>
+                            <input
+                                name = "location"
+                                onChange={editChangeHandler}
+                                value={ editActivity.location}/>
+                        </div>
                         <div>
                             <button type="submit">Save</button>
                             <button onClick = {() => setEditing(false)}>Cancel</button>
@@ -160,8 +71,8 @@ export const ActivitiesList = ({ activities, updateActivity }) => {
         
         {/* Adding */}
             <div>
-            <form>
-                <div onClick={addSubmitHandler}>
+            <form onSubmit={addSubmitHandler}>
+                <div>
                     <h3>Add Activity</h3>
                     <input
                         type = "text"
