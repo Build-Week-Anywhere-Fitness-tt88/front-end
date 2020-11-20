@@ -97,8 +97,6 @@ const HomeLink = styled.a`
 
 export default function Header(props){
     const {currentUser} = props;
-    // console.log(currentUser);
-
     const history = useHistory();
 
     const handleHome = (e) => {
@@ -120,13 +118,7 @@ export default function Header(props){
                     <NavLinkItem to='/login'>Log In</NavLinkItem>
                     <NavLinkItem to='/sampleclasses'>Classes</NavLinkItem>
                     <NavLinkItem to='/instructorPage'>Instructor</NavLinkItem>
-                    <NavLinkItem to='/clientPage'>Client</NavLinkItem>
-
-                    {/* conditional rendering for links, instrucor and client links 
-                        only are rendered with a current user logged in */}
-                    {/* {currentUser.username !== '' && (currentUser.instructor ? 
-                    <NavLinkItem to='/instructorPage'>Instructors</NavLinkItem> : <NavLinkItem to='/clientPage'>Clients</NavLinkItem>)} */}
-                      
+                    <NavLinkItem to='/clientPage'>Client</NavLinkItem>      
                 </NavLinkDiv>
             </HeaderDiv>
         </HeaderWrapper>

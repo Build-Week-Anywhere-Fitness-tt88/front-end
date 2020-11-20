@@ -12,22 +12,13 @@ const Transition = React.forwardRef((props, ref) => {
 });
 
 
-export default function LogOutWarning(props) {
-  const {currentUser} = props;
-  const username = currentUser.username;
-  
-  const [open, setOpen] = useState(true);
+export default function NoAccountDialog() {
   const history = useHistory();
 
+  const [open, setOpen] = useState(true);
   const handleClose = () => {
     setOpen(false);
-    history.goBack();
-  };
-
-  const handleLogOut = () => {
-      setOpen(false);
-      localStorage.removeItem('token');
-      window.location.href = 'https://anywhere-fitness-tt88.netlify.app/';;
+    history.push('/signup'); 
   };
 
   const textStyles = {
@@ -66,18 +57,15 @@ export default function LogOutWarning(props) {
               fontWeight: '600',
               color: '#ffffff',
               margin: "0 auto"
-            }}>Hi, {username}!</span>
+            }}>Have we met?</span>
         </DialogTitle>
         <DialogContent>
-            <DialogContentText><span style={textStyles}>Continuing to the Home Page will log you out of your account.</span></DialogContentText> 
-            <DialogContentText><span style={textStyles}>Do you want to continue?</span></DialogContentText>
+            <DialogContentText><span style={textStyles}>It looks like you haven't signed up for an account.</span></DialogContentText> 
+            <DialogContentText><span style={textStyles}>Please sign up on our Sign Up page.</span></DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary" autoFocus>
-            <span style={buttonTextStyles}>Return to your account</span>
-          </Button>
-          <Button onClick={handleLogOut} color="primary">
-            <span style={buttonTextStyles}>Continue to Home</span>
+            <span style={buttonTextStyles}>Sign Up</span>
           </Button>
         </DialogActions>
       </Dialog>

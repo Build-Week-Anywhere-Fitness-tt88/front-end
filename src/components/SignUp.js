@@ -1,9 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import {Route, Link, useHistory, useRouteMatch} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import * as yup from 'yup';
 import axios from 'axios';
 import styled from 'styled-components';
-import SignUpDialog from './SignUpDialog';
 
 const SignUpWrapperDiv = styled.div`
     margin-top: 0;
@@ -139,14 +138,10 @@ const initialFormState = {
     role: ''
 };
 
-export default function SignUp (props) {
+export default function SignUp () {
     // receive function to set current user as props
-    const {currentUser, getUser} = props;
     // use hook to get history props
     const history = useHistory();
-
-    // use hook to get match props
-    const match = useRouteMatch();
 
     // hold state for user signup form
     const [formState, setFormState] = useState(initialFormState);
@@ -181,18 +176,11 @@ export default function SignUp (props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('newuserInfo:', formState);
-
         // set up axios POST request to sign up a new user
         axios
         .post('https://anywhere-fitness-tt-webpt-88.herokuapp.com/users/sign-up', formState)
-        .then(response => {
-            console.log(response.data);
-            // getUser will update currentUser state on App component
-            getUser(response.data)
-            // push to Route for Dialog Welcome Message
-            history.push(`${match.url}/success`);  
-        })
+        .then(response => history.push('/login'))
+        .catch(err => console.log(err))
         setFormState(initialFormState);
     }
 
@@ -261,9 +249,6 @@ export default function SignUp (props) {
                 {errors.role.length > 0 ? <Errors>{errors.role}</Errors> : null}
                 <SubmitButton disabled={buttonDisabled} type='submit'>Submit</SubmitButton>
             </Form>
-            <Route path={`${match.url}/success`}>
-                <SignUpDialog currentUser={currentUser}/>
-            </Route>
         </SignUpWrapperDiv>
     )
 
