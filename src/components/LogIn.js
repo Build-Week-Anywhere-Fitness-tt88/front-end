@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {Link, useHistory, useRouteMatch} from 'react-router-dom';
+import {Route, Link, useHistory, useRouteMatch} from 'react-router-dom';
 import * as yup from 'yup';
 import axios from 'axios';
 import styled from 'styled-components';
+import SignUpDialog from './SignUpDialog';
+import NoAccountDialog from './NoAccountDialog';
 
 const LogInWrapperDiv = styled.div`
     margin-top: 0;
@@ -132,7 +134,6 @@ export default function LogIn (props) {
     const history = useHistory();
     // get current url with useRouteMatch hook
     const match = useRouteMatch();
-    console.log(match.url);
 
     // hold state for user login form
     const [formState, setFormState] = useState(initialFormState);
@@ -161,7 +162,6 @@ export default function LogIn (props) {
         })
         .catch(err => {
           setErrors({ ...errors, [name]: err.errors[0] });
-          console.log(err);
         });
     }
 
@@ -172,27 +172,17 @@ export default function LogIn (props) {
     // based on conditional check of BE response.data
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("User LogIn:", formState);
 
-        // sample axios POST request -- switch to BE when routes are ready
         axios
         .post('https://anywhere-fitness-tt-webpt-88.herokuapp.com/users/login', formState)
         .then((response)=> {
-            console.log("Below this is the response.data")
-            console.log(response.data);
             getUser(response.data);
             localStorage.setItem('token', response.data.token)
-
-            if (response.data.instructor){
-                history.push('/instructorPage');
-            }else{
-                history.push('/clientPage');
-            }
+            history.push(`${match.url}/success`);
         })
         .catch((err) => {
             console.log(err);
-            alert(`No account exists, please create an account.`);
-            history.push('/signup');
+            history.push(`${match.url}/error`);
         });
 
         //resets form
@@ -217,6 +207,7 @@ export default function LogIn (props) {
     },[formState])
 
     return(
+        <>
         <LogInWrapperDiv>
             <FormHeaderDiv>
                 <LogInTitle>Log In</LogInTitle>
@@ -246,8 +237,15 @@ export default function LogIn (props) {
                 </FormGroup>
                 {errors.password.length > 0 ? <Errors>{errors.password}</Errors> : null}
                 <SubmitButton disabled={buttonDisabled} type='submit'>Submit</SubmitButton>
-            </Form>
+            </Form> 
         </LogInWrapperDiv>
+        <Route path={`${match.url}/success`}>
+            <SignUpDialog currentUser={currentUser}/>
+        </Route>
+        <Route path={`${match.url}/error`}>
+            <NoAccountDialog />
+        </Route>
+        </>
     )
 
 }

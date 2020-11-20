@@ -16,20 +16,17 @@ function App() {
 
   // state to hold current logged in user, initial user object values
   const [currentUser, setCurrentUser] = useState({
-      id: '',
       username: '',
-      password: '',
-      role: '' 
+      role: '',
+      token: '' 
     });
 
   // function to get the current logged in user, passed as props to signup and login forms
   const getUser = (user) => {
-    console.log('updating state with current user', user);
     const loggedInUser = {...currentUser,
-      id: user.id,
       username: user.username,
-      password: user.password,
-      role: user.role
+      role: user.role,
+      tolen: user.token
     }
     setCurrentUser(loggedInUser);
   }
@@ -43,13 +40,10 @@ function App() {
       {/* Routes */}
       <Switch>
         <Route path='/logout' render={() => <LogOutWarning currentUser={currentUser} />}/>
-        <Route path='/signup' render={()=> <SignUp currentUser={currentUser} getUser={getUser}/>}/>
+        <Route path='/signup' render={()=> <SignUp />}/>
         <Route path='/login' render={()=> <LogIn currentUser={currentUser} getUser={getUser}/>}/>
         <Route path='/sampleclasses' component={SampleClasses} />
 
-        {/* Will change later to private routes once authentication token is finished */}
-        {/* <Route path='/clientPage' render={()=> <ClientPage getUser={getUser}/>}/> */}
-        {/* <Route path='/instructorPage' render={()=> <InstructorPage getUser={getUser}/>}/> */}
         <PrivateRoute path='/clientPage' component={ClientPage}/>
         <PrivateRoute path='/instructorPage' component={InstructorPage}/>
       </Switch>
